@@ -92,10 +92,31 @@ app.post("/api/v1/restaurants", async (req, res) => {
 
 
 //Update restaurants 
-app.put("/api/v1/restaurants/:id", (req, res) => {
+app.put("/api/v1/restaurants/:id", async (req, res) => {
 
-    console.log(req.params.id);
-    console.log(req.body);
+    try {
+        
+        const {name, location, price_range} = req.body;
+        const results = await db.query("UPDATE restaurants SET name = $1, location = $2, price_range = $3 WHERE id = $4returning *",
+        [name, location, price_range, req.params.id]);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Restaurants ' + name + ' updated successfully',
+            data: {
+                restaurants: results.rows
+            }
+        });
+
+    } catch (error) {
+        
+        res.status(500).json({
+            status: 'failed',
+            message: 'Update restaurants, error + ' + error
+        });
+
+        console.log('Update restaurant, error : ' + error);
+    }
 });
 
 //Delete restaurants
