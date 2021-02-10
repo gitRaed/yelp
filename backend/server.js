@@ -120,11 +120,26 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
 });
 
 //Delete restaurants
-app.delete("/api/v1/restaurants/:id", (req, res) => {
+app.delete("/api/v1/restaurants/:id", async (req, res) => {
 
-    res.status(204).json({
-        status : "success"
-    });
+    try {
+        
+        await db.query("DELETE FROM restaurants WHERE id= $1", [req.params.id]);
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Restaurant deleted successfully'
+        });
+
+    } catch (error) {
+        
+        res.status(500).json({
+            status: 'failed',
+            message: 'Delete restaurants, error + ' + error
+        });
+
+        console.log('Delete restaurant, error : ' + error);
+    }
 });
 
 
