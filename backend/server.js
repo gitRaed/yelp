@@ -63,9 +63,31 @@ app.get("/api/v1/restaurants/:id", async (req, res) => {
 
 
 //Create a restaurant
-app.post("/api/v1/restaurants", (req, res) => {
+app.post("/api/v1/restaurants", async (req, res) => {
 
-    console.log(req.body);
+    try {
+        
+        const {name, location, price_range} = req.body;
+        const results = await db.query("INSERT INTO restaurants(name, location, price_range) VALUES ($1, $2, $3) returning*", 
+        [name, location, price_range] );
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Restaurants ' + name + ' created successfully',
+            data: {
+                restaurants: results.rows
+            }
+        });
+
+    } catch (error) {
+        
+        res.status(500).json({
+            status: 'failed',
+            message: 'Create restaurants, error + ' + error
+        });
+
+        console.log('Create restaurant, error : ' + error);
+    }
 });
 
 
