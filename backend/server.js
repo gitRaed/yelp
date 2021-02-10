@@ -9,9 +9,27 @@ app.use(express.json());
 // get all restaurants
 app.get("/api/v1/restaurants", async (req, res) => {
 
-    res.status(200);
-    const results = await db.query("SELECT * FROM restaurants");
-    console.log(results);
+    try {
+        
+        const results = await db.query("SELECT * FROM restaurants");
+        console.log(results);
+        res.status(200).json({
+            status: "success",
+            results: results.rows.length,
+            data: {
+                restaurants: results.rows
+            }
+        });
+
+    } catch (error) {
+        
+        res.status(500).json({
+            status: "failed",
+            message: "Get all restaurants, error : " + error 
+        });
+
+        console.log("Get all restaurants, error : " + error);
+    }
 });
 
 
