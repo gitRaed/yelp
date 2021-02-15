@@ -40,14 +40,23 @@ const RestaurantList = (props) => {
             </thead>
 
                 <tbody>
-                    <tr>
-                        <td>mcdonal</td>
-                        <td>New York</td>
-                        <td>$$$</td>
-                        <td>Rating</td>
-                        <td> <button className="btn btn-warning">Update</button> </td>
-                        <td> <button className="btn btn-danger">Delete</button> </td>
-                    </tr>
+
+                    {restaurants && restaurants.map( (restaurant) => {
+                    //if restaurants has received the data from the api then map
+                            return (
+                                <tr key={restaurant.id}>
+                                    <td> {restaurant.name} </td>
+                                    <td>{restaurant.location} </td>
+                                    <td>{"$".repeat(restaurant.price_range)} </td>
+                                    <td>reviews</td>
+                                    <td> <button className="btn btn-warning">Update</button> </td>
+                                    <td> <button className="btn btn-danger">Delete</button> </td>
+                                </tr>
+                            );
+                        })
+
+                    }
+
                 </tbody>
             
             </table>
