@@ -1,7 +1,28 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
+import RestaurantsFinder from "../api/RestaurantsFinder";
+import { RestaurantsContext } from '../context/RestaurantsContext';
 
+const RestaurantList = (props) => {
 
-const RestaurantList = () => {
+    const {restaurants, setRestaurants} = useContext(RestaurantsContext);
+
+    useEffect( () => {
+        const fetchData =  async () => {
+
+            try {
+            
+                const response = await RestaurantsFinder.get("/");
+                setRestaurants(response.data.data.restaurants);
+
+            } catch (error) {
+                console.log('Restaurants list, error : ' + error);
+            }
+
+        };
+
+        fetchData();
+
+    }, [])
 
     return(
         <div className="list-group">
