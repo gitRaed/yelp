@@ -42,7 +42,8 @@ const RestaurantList = (props) => {
                 <tbody>
 
                     {restaurants && restaurants.map( (restaurant) => {
-                    //if restaurants has received the data from the api then map
+                    //if restaurant has received the data from the api then map
+
                             return (
                                 <tr key={restaurant.id}>
                                     <td> {restaurant.name} </td>

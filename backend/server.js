@@ -77,7 +77,7 @@ app.post("/api/v1/restaurants", async (req, res) => {
             status: 'success',
             message: 'Restaurants ' + name + ' created successfully',
             data: {
-                restaurants: results.rows
+                restaurants: results.rows[0]
             }
         });
 
@@ -106,7 +106,7 @@ app.put("/api/v1/restaurants/:id", async (req, res) => {
             status: 'success',
             message: 'Restaurants ' + name + ' updated successfully',
             data: {
-                restaurants: results.rows
+                restaurants: results.rows[0]
             }
         });
 
