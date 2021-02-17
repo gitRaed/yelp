@@ -24,6 +24,22 @@ const RestaurantList = (props) => {
 
     }, [])
 
+    const handleDelete = async (id) => {
+
+        try {
+            
+            await RestaurantsFinder.delete("/" + id);
+            // * this filter method will itterate throught our restaurant array, and only push restaurants which id doesnt match the id we want to delete
+            setRestaurants(restaurants.filter(restaurant => {
+                return restaurant.id !== id
+            }));
+
+        } catch (error) {
+            
+            console.log('Handle delete, error : ' + error);
+        }
+    };
+
     return(
         <div className="list-group">
             <table className="table table-dark table-hover ">
@@ -51,7 +67,7 @@ const RestaurantList = (props) => {
                                     <td>{"$".repeat(restaurant.price_range)} </td>
                                     <td>reviews</td>
                                     <td> <button className="btn btn-warning">Update</button> </td>
-                                    <td> <button className="btn btn-danger">Delete</button> </td>
+                                    <td> <button onClick={() => handleDelete(restaurant.id)} className="btn btn-danger">Delete</button> </td>
                                 </tr>
                             );
                         })
