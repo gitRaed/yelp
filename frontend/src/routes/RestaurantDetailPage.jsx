@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import RestaurantsFinder from '../api/RestaurantsFinder';
+import AddReview from '../components/addReview';
 import Reviews from '../components/Reviews';
-import StarRating from '../components/StarRating';
 import { RestaurantsContext } from '../context/RestaurantsContext';
 
 
@@ -18,7 +18,7 @@ const RestaurantDetailPage = () => {
             try {
 
                 const response = await RestaurantsFinder.get("/"+id);
-                setSelectedRestaurant(response.data.data.restaurants);
+                setSelectedRestaurant(response.data.data);
 
             } catch (error) {
                 
@@ -34,9 +34,12 @@ const RestaurantDetailPage = () => {
         <div>
             {selectedRestaurant && (
                 <>
+                    <h1 className="text-center display-1">{selectedRestaurant.restaurants.name}</h1>
                     <div className="mt-3">
-                        <Reviews />
+                        <Reviews reviews={selectedRestaurant.reviews} />
                     </div>
+
+                    <AddReview />
                 </>
             )} 
         </div>
